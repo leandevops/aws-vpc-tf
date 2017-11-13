@@ -34,7 +34,7 @@ resource "aws_nat_gateway" "self" {
 
 # Create route table for private network
 resource "aws_route_table" "private" {
-  count  = "${length(var.public_subnets)}"
+  count  = "${length(var.private_subnets)}"
   vpc_id = "${aws_vpc.self.id}"
 
   tags {
