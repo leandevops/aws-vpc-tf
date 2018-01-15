@@ -1,0 +1,23 @@
+---
+driver:
+  name: terraform
+  root_module_directory: test/fixtures/tf_module
+  variable_files: 
+    - "test/fixtures/tf_module/testing.tfvars"
+  parallelism: 4
+
+provisioner:
+  name: terraform
+
+platforms:
+  - name: aws
+
+verifier:
+  name: awsspec
+
+suites:
+  - name: "default"
+    verifier:
+      name: "awspec"
+      patterns:
+      - "test/integration/default/test_vpc.rb"
