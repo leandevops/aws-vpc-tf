@@ -46,9 +46,8 @@ resource "aws_route_table" "private" {
 
 # Create route for private network
 resource "aws_route" "through_nat_gateway" {
-  count = "${var.enable_nat_gateway ? length(var.public_subnets) : 0}"
-  #count = "${var.enable_nat_gateway ? (var.multi_nat_gateway ? length(var.public_subnets) : 1) : 0}"
-  
+  count = "${var.enable_nat_gateway ? length(var.public_subnets) : 0}"  
+
   route_table_id         = "${element(aws_route_table.private.*.id, count.index)}"
   destination_cidr_block = "0.0.0.0/0"
   nat_gateway_id         = "${element(aws_nat_gateway.self.*.id, count.index)}"

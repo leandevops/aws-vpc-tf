@@ -35,7 +35,7 @@ module "vpc" {
 
 ## Outputs
 
-- `vpc_id` - does what it says on the tin
+- `vpc_id` - the VPC id
 - `public_subnets` - list of public subnet ids
 - `private_subnets` - list of private subnet ids
 - `default_sg` - VPC default security group id
