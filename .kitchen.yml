@@ -21,3 +21,4 @@ suites:
       name: "awspec"
       patterns:
       - "test/integration/default/test_vpc.rb"
+      - "test/integration/default/test_network.rb"
