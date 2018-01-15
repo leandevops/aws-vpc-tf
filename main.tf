@@ -7,10 +7,9 @@ resource "aws_vpc" "self" {
   enable_dns_support   = "${var.enable_dns_support}"
 
   tags {
-    builtWith         = "terraform"    
-    Name              = "${var.name}"
-    visibility        = "private,public"
-    environment       = "${var.environment}"
+    builtWith   = "terraform"
+    Name        = "${var.name}"    
+    environment = "${var.environment}"
   }
 }
 

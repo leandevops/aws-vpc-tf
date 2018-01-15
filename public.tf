@@ -9,9 +9,7 @@ resource "aws_internet_gateway" "self" {
 
   tags {
     Name              = "${var.name}"
-    builtWith         = "terraform"
-    KubernetesCluster = "${var.name}"
-    visibility        = "private,public"
+    builtWith         = "terraform"        
     environment       = "${var.environment}"
   }
 }
@@ -24,7 +22,7 @@ resource "aws_route_table" "public" {
   tags {
     Name              = "${var.environment}-public-route_table"
     builtWith         = "terraform"
-    KubernetesCluster = "${var.name}"
+    environment       = "${var.environment}"
   }
 }
 
@@ -47,7 +45,7 @@ resource "aws_subnet" "public" {
   tags {
     Name              = "${var.environment}-public-${count.index}"
     builtWith         = "terraform"
-    KubernetesCluster = "${var.name}"
+    environment       = "${var.environment}"
   }
 }
 
