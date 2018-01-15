@@ -3,7 +3,7 @@ provider "aws" {
 }
 
 module "module_test" {
-  source = "../../.."
+  source = "../../../module"
 
   region      = "${var.region}"
   name        = "${var.name}"
