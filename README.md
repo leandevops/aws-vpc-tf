@@ -17,7 +17,7 @@
 
 ```hcl
 module "vpc" {
-  source = "./modules/aws_vpc"
+  source = "github.com/lestex/aws-vpc-tf/module"
 
   name        = "aws-kubernetes"
   environment = "development"
