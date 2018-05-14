@@ -1,16 +1,16 @@
 ##############################
 # input and output variables
 ##############################
+variable "region" {
+  description = "The AWS region."
+}
+
 variable "name" {
   description = "a name for tagging"
 }
 
 variable "vpc_cidr" {
   description = "The CIDR of the VPC."
-}
-
-variable "region" {
-  description = "The AWS region."
 }
 
 variable "environment" {
@@ -50,4 +50,9 @@ variable "enable_nat_gateway" {
 variable "multi_nat_gateway" {
   description = "Set to TRUE to create multiple nat gateways for each private subnet"
   default     = false
+}
+
+variable "tags" {
+  description = "A map of tags to add to all resources"
+  default     = {}
 }

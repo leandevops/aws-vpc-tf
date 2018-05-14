@@ -7,11 +7,7 @@ resource "aws_internet_gateway" "self" {
   count  = "${length(var.public_subnets) > 0 ? 1 : 0}"
   vpc_id = "${aws_vpc.self.id}"
 
-  tags {
-    Name              = "${var.name}"
-    builtWith         = "terraform"        
-    environment       = "${var.environment}"
-  }
+  tags = "${merge(var.tags, map("Name", format("%s-internet-gateway", var.name)))}"
 }
 
 # Create a route table
@@ -19,11 +15,7 @@ resource "aws_route_table" "public" {
   count  = "${length(var.public_subnets) > 0 ? 1 : 0}"
   vpc_id = "${aws_vpc.self.id}"
 
-  tags {
-    Name              = "${var.environment}-public-route_table"
-    builtWith         = "terraform"
-    environment       = "${var.environment}"
-  }
+  tags = "${merge(var.tags, map("Name", format("%s-public-route_table", var.name)))}"
 }
 
 # Create a route
@@ -40,13 +32,9 @@ resource "aws_subnet" "public" {
   vpc_id                  = "${aws_vpc.self.id}"
   cidr_block              = "${var.public_subnets[count.index]}"
   map_public_ip_on_launch = "${var.map_public_ip_on_launch}"
-  availability_zone       = "${data.aws_availability_zones.available.names[count.index]}"
+  availability_zone       = "${element(data.aws_availability_zones.available.names, count.index)}"
 
-  tags {
-    Name              = "${var.environment}-public-${count.index}"
-    builtWith         = "terraform"
-    environment       = "${var.environment}"
-  }
+  tags = "${merge(var.tags, map("Name", format("%s-public-%d", var.name, count.index)))}"
 }
 
 # Associate public networks with route table

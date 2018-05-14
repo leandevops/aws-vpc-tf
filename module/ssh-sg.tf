@@ -5,7 +5,7 @@
 # Create a security group for SSH
 resource "aws_security_group" "allow_ssh-sg" {
   vpc_id      = "${aws_vpc.self.id}"
-  name        = "${var.environment}-allow_ssh-sg"
+  name        = "${var.name}-allow_ssh-sg"
   description = "Allow SSH"
 
   ingress {
@@ -30,6 +30,6 @@ resource "aws_security_group" "allow_ssh-sg" {
   }
 
   tags {
-    Name = "${var.environment}-allow_ssh-sg"
+    Name = "${var.name}-allow_ssh-sg"
   }
 }

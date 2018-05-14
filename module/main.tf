@@ -1,3 +1,7 @@
+terraform {
+  required_version = ">= 0.10.3"
+}
+
 #################
 ## VPC
 #################
@@ -6,11 +10,7 @@ resource "aws_vpc" "self" {
   enable_dns_hostnames = "${var.enable_dns_hostnames}"
   enable_dns_support   = "${var.enable_dns_support}"
 
-  tags {
-    builtWith   = "terraform"
-    Name        = "${var.name}"    
-    environment = "${var.environment}"
-  }
+  tags = "${merge(var.tags, map("Name", format("%s", var.name)))}"
 }
 
 ####################
