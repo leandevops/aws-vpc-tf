@@ -12,6 +12,9 @@
 - `enable_nat_gateway` - should be true if you want to provision NAT Gateways (default - false)
 - `multi_nat_gateway` - should be true if you want to provision a multiple NAT Gateways across all of your private networks (default - false)
 - `map_public_ip_on_launch` - should be false if you do not want to auto-assign public IP on launch
+- `enable_dhcp_options` - should be set to true if you want to create a dhcp options for vpc
+- `dhcp_options_domain_name` - specify a domain name
+- `enable_s3_endpoint` - create S3 enpoint and corresponding routes
 
 ## Usage
 
@@ -26,6 +29,9 @@ module "vpc" {
 
   public_subnets  = ["10.0.1.0/24", "10.0.2.0/24"]
   private_subnets = ["10.0.10.0/24", "10.0.20.0/24"]
+
+  enable_dhcp_options      = true
+  dhcp_options_domain_name = "${local.domain_name}"
 
   map_public_ip_on_launch = true
   enable_nat_gateway      = true
