@@ -1,4 +1,5 @@
 # AWS VPC terraform module
+[![Maintained by Leandevops.io](https://img.shields.io/badge/maintained%20by-leandevops-green.svg)](https://img.shields.io/badge/maintained%20by-leandevops-green.svg)
 
 ## Module Variables
 

@@ -9,3 +9,8 @@ private_subnets = ["10.0.10.0/24", "10.0.20.0/24"]
 map_public_ip_on_launch = true
 enable_nat_gateway = true
 multi_nat_gateway = false
+
+tags = {
+  environment = "development"
+  builtWith = "terraform"
+}

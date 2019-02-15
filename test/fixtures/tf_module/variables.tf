@@ -14,3 +14,4 @@ variable "private_subnets" {
 variable "map_public_ip_on_launch" {}
 variable "enable_nat_gateway" {}
 variable "multi_nat_gateway" {}
+variable "tags" {}

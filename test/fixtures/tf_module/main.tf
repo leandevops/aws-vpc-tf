@@ -16,4 +16,6 @@ module "module_test" {
   map_public_ip_on_launch = "${var.map_public_ip_on_launch}"
   enable_nat_gateway      = "${var.enable_nat_gateway}"
   multi_nat_gateway       = "${var.multi_nat_gateway}"
+  
+  tags = "${var.tags}"
 }
