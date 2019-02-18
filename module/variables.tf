@@ -13,10 +13,6 @@ variable "vpc_cidr" {
   description = "The CIDR of the VPC."
 }
 
-variable "environment" {
-  description = "The name of our environment, i.e. development."
-}
-
 variable "enable_dns_hostnames" {
   description = "Should be set to true to use private DNS within the VPC"
   default     = true

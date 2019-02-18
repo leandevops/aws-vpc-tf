@@ -6,8 +6,7 @@ module "module_test" {
   source = "../../../module"
 
   region      = "${var.region}"
-  name        = "${var.name}"
-  environment = "${var.environment}"
+  name        = "${var.name}"  
   vpc_cidr    = "${var.vpc_cidr}"
 
   public_subnets  = ["${var.public_subnets}"]
