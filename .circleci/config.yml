@@ -37,7 +37,10 @@ jobs:
             chmod +x terraform
             sudo mv terraform /usr/local/bin
             terraform version
-
       - run:
-          name: Run kitchen test
-          command: bundle exec kitchen test
+          name: Run ls -la
+          command: ls -la
+
+      # - run:
+      #     name: Run kitchen test
+      #     command: bundle exec kitchen test
