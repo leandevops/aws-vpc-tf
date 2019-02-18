@@ -2,14 +2,31 @@ version: 2
 jobs:
   build:
     docker:
-      - image: debian:stretch
+      - image: circleci/ruby:2.4.2-jessie-node
+        environment:
+          BUNDLE_PATH: vendor/bundle
 
     steps:
       - checkout
 
       - run:
-          name: Greeting
-          command: echo Hello, world.
+          name: Which bundler?
+          command: bundle -v
+
+      - restore_cache:
+          keys:
+            - terraform-aws-vpc-{{ checksum "Gemfile.lock" }}
+            - terraform-aws-vpc-
+
+      # Install test dependencies
+      - run:
+          name: Bundle Install
+          command: bundle check || bundle install
+      
+      - save_cache:
+          key: terraform-aws-vpc-{{ checksum "Gemfile.lock" }}
+          paths:
+            - vendor/bundle
 
       - run:
           name: Print the Current Time
