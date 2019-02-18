@@ -35,12 +35,15 @@ jobs:
             curl -o terraform.zip https://releases.hashicorp.com/terraform/0.11.11/terraform_0.11.11_linux_amd64.zip
             unzip terraform.zip
             chmod +x terraform
-            sudo mv terraform /usr/local/bin
-            terraform version
+            sudo mv terraform /usr/local/bin && rm terra
       - run:
           name: Run ls -la
           command: ls -la
 
-      # - run:
-      #     name: Run kitchen test
-      #     command: bundle exec kitchen test
+      - run:
+          name: Run kitchen test
+          command: bundle exec kitchen converge
+
+      - run:
+          name: Run ls -la
+          command: ls -la
