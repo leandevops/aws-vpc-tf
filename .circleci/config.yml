@@ -47,3 +47,11 @@ jobs:
       - run:
           name: Run ls -la
           command: ls -la
+
+      - run:
+          name: Run ls -la
+          command: ls -la .circleci
+      
+      - run:
+          name: Run ls -la
+          command: ls -la vendor
