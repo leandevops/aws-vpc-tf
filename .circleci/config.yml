@@ -29,5 +29,5 @@ jobs:
             - vendor/bundle
 
       - run:
-          name: Print the Current Time
-          command: date
+          name: Run kitchen test
+          command: bundle exec kitchen test
