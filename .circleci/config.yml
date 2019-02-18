@@ -5,6 +5,7 @@ jobs:
       - image: circleci/ruby:2.4.2-jessie-node
         environment:
           BUNDLE_PATH: vendor/bundle
+          TERRAFORM_VERSION = 0.11.11
 
     steps:
       - checkout
@@ -27,6 +28,12 @@ jobs:
           key: terraform-aws-vpc-{{ checksum "Gemfile.lock" }}
           paths:
             - vendor/bundle
+      
+      - run:
+          name: Install terraform
+          command: |
+            curl -o terraform.zip https://releases.hashicorp.com/terraform/{{$TERRAFORM_VERSION}}/terraform_{{$TERRAFORM_VERSION}}_linux_amd64.zip &&
+            unzip terraform.zip && chmod +x terraform && mv terraform /usr/local/bin
 
       - run:
           name: Run kitchen test
