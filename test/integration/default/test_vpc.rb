@@ -42,8 +42,7 @@ end
 # Testing internet gateway
 describe internet_gateway(target_internet_gateway) do
   it { should exist }
-  it { should be_attached_to(target_vpc_id) }
-  it { should have_tag('Name').value(target_vpc_name) }
+  it { should be_attached_to(target_vpc_id) }  
   it { should have_tag('environment').value(target_vpc_env) }
   it { should have_tag('builtWith').value('terraform') }
 end
