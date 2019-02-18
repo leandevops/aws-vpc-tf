@@ -32,7 +32,7 @@ jobs:
       - run:
           name: Install terraform
           command: |
-            curl -o terraform.zip https://releases.hashicorp.com/terraform/{{$TERRAFORM_VERSION}}/terraform_{{$TERRAFORM_VERSION}}_linux_amd64.zip &&
+            curl -o terraform.zip https://releases.hashicorp.com/terraform/$TERRAFORM_VERSION/terraform_$TERRAFORM_VERSION_linux_amd64.zip &&
             unzip terraform.zip && chmod +x terraform && mv terraform /usr/local/bin
 
       - run:
