@@ -2,15 +2,49 @@ version: 2
 jobs:
   build:
     docker:
-      - image: debian:stretch
+      - image: circleci/ruby:2.5.0-node
+        environment:
+          BUNDLER_VERSION: 2.0.1
+          BUNDLE_PATH: vendor/bundle
+          AWS_REGION: us-east-1
 
     steps:
       - checkout
 
       - run:
-          name: Greeting
-          command: echo Hello, world.
+          name: update bundler
+          command: |
+            sudo gem update --system
+            sudo gem uninstall bundler
+            sudo rm /usr/local/bin/bundle
+            sudo rm /usr/local/bin/bundler
+            sudo gem install bundler
+
+      - restore_cache:
+          keys:
+            - terraform-aws-vpc-{{ checksum "Gemfile.lock" }}
+            - terraform-aws-vpc-
 
       - run:
-          name: Print the Current Time
-          command: date
+          name: Bundle Install
+          command: bundle check || bundle install
+      
+      - save_cache:
+          key: terraform-aws-vpc-{{ checksum "Gemfile.lock" }}
+          paths:
+            - vendor/bundle
+      
+      - run:
+          name: Install terraform to the PATH
+          command: |
+            curl -o terraform.zip https://releases.hashicorp.com/terraform/0.11.11/terraform_0.11.11_linux_amd64.zip
+            unzip terraform.zip
+            chmod +x terraform
+            sudo mv terraform /usr/local/bin && rm terraform.zip
+      - run:
+          name: Run kitchen test
+          command: bundle exec kitchen test
+
+      - run:
+          name: Run ls -la
+          command: ls -la
