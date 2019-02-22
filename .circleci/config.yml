@@ -65,10 +65,7 @@ jobs:
       - run:
           name: Check Terraform configurations with tflint
           command: tflint
+
       - run:
           name: Run kitchen test
           command: bundle exec kitchen test
-
-      - run:
-          name: Run ls -la
-          command: ls -la
