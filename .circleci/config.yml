@@ -56,7 +56,11 @@ jobs:
 
       - run:
           name: Install tflint
-          command: curl -L -o /tmp/tflint.zip https://github.com/wata727/tflint/releases/download/v0.4.2/tflint_linux_amd64.zip && unzip /tmp/tflint.zip -d /usr/local/bin
+          command: |
+            curl -o tflint.zip https://github.com/wata727/tflint/releases/download/v0.4.2/tflint_linux_amd64.zip 
+            unzip tflint.zip
+            chmod +x tflint
+            sudo mv tflint /usr/local/bin && rm tflint.zip
 
       - run:
           name: Check Terraform configurations with tflint
