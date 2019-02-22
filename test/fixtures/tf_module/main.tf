@@ -5,9 +5,9 @@ provider "aws" {
 module "module_test" {
   source = "../../../module"
 
-  region      = "${var.region}"
-  name        = "${var.name}"  
-  vpc_cidr    = "${var.vpc_cidr}"
+  region   = "${var.region}"
+  name     = "${var.name}"
+  vpc_cidr = "${var.vpc_cidr}"
 
   public_subnets  = ["${var.public_subnets}"]
   private_subnets = ["${var.private_subnets}"]
@@ -15,6 +15,6 @@ module "module_test" {
   map_public_ip_on_launch = "${var.map_public_ip_on_launch}"
   enable_nat_gateway      = "${var.enable_nat_gateway}"
   multi_nat_gateway       = "${var.multi_nat_gateway}"
-  
+
   tags = "${var.tags}"
 }
