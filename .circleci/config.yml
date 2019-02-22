@@ -6,6 +6,7 @@ jobs:
         environment:
           BUNDLER_VERSION: 2.0.1
           BUNDLE_PATH: vendor/bundle
+          AWS_REGION: us-east-1
 
     steps:
       - checkout
