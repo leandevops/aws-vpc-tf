@@ -32,7 +32,7 @@ module "vpc" {
   private_subnets = ["10.0.10.0/24", "10.0.20.0/24"]
 
   enable_dhcp_options      = true
-  dhcp_options_domain_name = "${local.domain_name}"
+  dhcp_options_domain_name = "${var.domain_name}"
 
   map_public_ip_on_launch = true
   enable_nat_gateway      = true
