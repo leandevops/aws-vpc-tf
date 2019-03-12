@@ -1,6 +1,6 @@
 version: 2
 jobs:
-  build:
+  terraform-lint:
     docker:
       - image: leandevopsio/terratest:0.1
         environment:
@@ -10,22 +10,8 @@ jobs:
     steps:
       - checkout
 
-      - restore_cache:
-          keys:
-            - terraform-aws-vpc-{{ checksum "Gemfile.lock" }}
-            - terraform-aws-vpc-
-
       - run:
-          name: Bundle Install
-          command: bundle check || bundle install
-      
-      - save_cache:
-          key: terraform-aws-vpc-{{ checksum "Gemfile.lock" }}
-          paths:
-            - vendor/bundle
-      
-      - run:
-          name: terraform init
+          name: Terraform init
           command: terraform init -input=false
 
       - run:
@@ -51,6 +37,20 @@ jobs:
     steps:
       - checkout
 
+      - restore_cache:
+          keys:
+            - terraform-aws-vpc-{{ checksum "Gemfile.lock" }}
+            - terraform-aws-vpc-
+
+      - run:
+          name: Bundle Install
+          command: bundle check || bundle install
+      
+      - save_cache:
+          key: terraform-aws-vpc-{{ checksum "Gemfile.lock" }}
+          paths:
+            - vendor/bundle
+
       - run:
           name: Run kitchen test
           command: bundle exec kitchen test
@@ -59,11 +59,11 @@ workflows:
   version: 2
   workflow:
     jobs:
-      - build
+      - terraform-lint
       # - terraform-init
       # - terraform-validate
       # - terraform-fmt
       # - tflint
       - kitchen-test:
           requires:
-            - build
+            - terraform-lint
