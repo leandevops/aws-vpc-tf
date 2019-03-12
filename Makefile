@@ -1,9 +1,5 @@
 .PHONY: all
-all: build
-
-.PHONY: build
-build:
-		@echo "test"
+all: clean
 
 .PHONY clean
 clean:

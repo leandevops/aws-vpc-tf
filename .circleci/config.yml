@@ -1,29 +1,60 @@
 version: 2
 jobs:
-  build:
+  terraform-init:
     docker:
-      - image: circleci/ruby:2.5.0-node
+      - image: leandevopsio/terratest:0.1
+
+    steps:
+      - checkout
+      - run:
+          name: Terraform init
+          command: terraform init -input=false
+
+  terraform-validate:
+    docker:
+      - image: leandevopsio/terratest:0.1
+
+    steps:
+      - checkout
+      - run:
+          name: Validate Terraform configurations
+          command: find . -type f -name "*.tf" -exec dirname {} \;|sort -u | while read m; do (terraform validate -check-variables=false "$m" && echo "√ $m") || exit 1 ; done
+
+  terraform-fmt:
+    docker:
+      - image: leandevopsio/terratest:0.1
+
+    steps:
+      - checkout
+      - run:
+          name: Check if Terraform configurations are properly formatted
+          command: if [[ -n "$(terraform fmt -write=false)" ]]; then echo "Some terraform files need be formatted, run 'terraform fmt' to fix"; exit 1; fi
+
+  tflint:
+    docker:
+      - image: leandevopsio/terratest:0.1
+
+    steps:
+      - checkout
+      - run:
+          name: Check Terraform configurations with tflint
+          command: |
+            cd module
+            tflint
+
+  kitchen-test:
+    docker:
+      - image: leandevopsio/terratest:0.1
         environment:
-          BUNDLER_VERSION: 2.0.1
           BUNDLE_PATH: vendor/bundle
           AWS_REGION: us-east-1
 
     steps:
       - checkout
 
-      - run:
-          name: update bundler
-          command: |
-            sudo gem update --system
-            sudo gem uninstall bundler
-            sudo rm /usr/local/bin/bundle
-            sudo rm /usr/local/bin/bundler
-            sudo gem install bundler
-
       - restore_cache:
           keys:
             - terraform-aws-vpc-{{ checksum "Gemfile.lock" }}
-            - terraform-aws-vpc-
 
       - run:
           name: Bundle Install
@@ -33,39 +64,37 @@ jobs:
           key: terraform-aws-vpc-{{ checksum "Gemfile.lock" }}
           paths:
             - vendor/bundle
-      
-      - run:
-          name: Install terraform to the PATH
-          command: |
-            curl -o terraform.zip https://releases.hashicorp.com/terraform/0.11.11/terraform_0.11.11_linux_amd64.zip
-            unzip terraform.zip
-            chmod +x terraform
-            sudo mv terraform /usr/local/bin && rm terraform.zip
-      
-      - run:
-          name: terraform init
-          command: terraform init -input=false
-
-      - run:
-          name: Validate Terraform configurations
-          command: find . -type f -name "*.tf" -exec dirname {} \;|sort -u | while read m; do (terraform validate -check-variables=false "$m" && echo "√ $m") || exit 1 ; done
-
-      - run:
-          name: Check if Terraform configurations are properly formatted
-          command: if [[ -n "$(terraform fmt -write=false)" ]]; then echo "Some terraform files need be formatted, run 'terraform fmt' to fix"; exit 1; fi
-
-      - run:
-          name: Install tflint
-          command: |
-            curl -L -o tflint.zip https://github.com/wata727/tflint/releases/download/v0.4.2/tflint_linux_amd64.zip 
-            unzip tflint.zip
-            chmod +x tflint
-            sudo mv tflint /usr/local/bin && rm tflint.zip
-
-      - run:
-          name: Check Terraform configurations with tflint
-          command: tflint
 
       - run:
           name: Run kitchen test
           command: bundle exec kitchen test
+
+workflows:
+  version: 2
+  tf-workflow:
+    jobs:
+      - terraform-init
+      - terraform-validate:
+          requires:
+            - terraform-init
+      - terraform-fmt:
+          requires:
+            - terraform-init
+      - tflint:
+          requires:
+            - terraform-init
+      - request-run:
+          type: approval
+          requires:
+            - terraform-validate
+            - terraform-fmt
+            - tflint
+          filters:
+            branches:
+              ignore: master
+      - kitchen-test:
+          requires:
+            - request-run
+          filters:
+            branches:
+              ignore: master
