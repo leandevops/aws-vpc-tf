@@ -42,6 +42,28 @@ jobs:
             cd module
             tflint
 
+  kitchen-test:
+    docker:
+      - image: leandevopsio/terratest:0.1
+        environment:
+          BUNDLE_PATH: vendor/bundle
+          AWS_REGION: us-east-1
+    steps:
+      - checkout
+
       - run:
           name: Run kitchen test
           command: bundle exec kitchen test
+
+workflows:
+  version: 2
+  workflow:
+    jobs:
+      - build
+      # - terraform-init
+      # - terraform-validate
+      # - terraform-fmt
+      # - tflint
+      - kitchen-test:
+          requires:
+            - build
