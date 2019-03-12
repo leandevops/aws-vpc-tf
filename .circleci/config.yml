@@ -3,9 +3,6 @@ jobs:
   terraform-init:
     docker:
       - image: leandevopsio/terratest:0.1
-        environment:
-          BUNDLE_PATH: vendor/bundle
-          AWS_REGION: us-east-1
 
     steps:
       - checkout
@@ -16,9 +13,6 @@ jobs:
   terraform-validate:
     docker:
       - image: leandevopsio/terratest:0.1
-        environment:
-          BUNDLE_PATH: vendor/bundle
-          AWS_REGION: us-east-1
 
     steps:
       - checkout
@@ -29,9 +23,6 @@ jobs:
   terraform-fmt:
     docker:
       - image: leandevopsio/terratest:0.1
-        environment:
-          BUNDLE_PATH: vendor/bundle
-          AWS_REGION: us-east-1
 
     steps:
       - checkout
@@ -42,9 +33,6 @@ jobs:
   tflint:
     docker:
       - image: leandevopsio/terratest:0.1
-        environment:
-          BUNDLE_PATH: vendor/bundle
-          AWS_REGION: us-east-1
 
     steps:
       - checkout
@@ -67,7 +55,6 @@ jobs:
       - restore_cache:
           keys:
             - terraform-aws-vpc-{{ checksum "Gemfile.lock" }}
-            - terraform-aws-vpc-
 
       - run:
           name: Bundle Install
@@ -84,7 +71,7 @@ jobs:
 
 workflows:
   version: 2
-  workflow:
+  tf-workflow:
     jobs:
       - terraform-init
       - terraform-validate:
