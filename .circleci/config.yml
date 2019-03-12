@@ -96,8 +96,18 @@ workflows:
       - tflint:
           requires:
             - terraform-init
-      - kitchen-test:
+      - request-run:
+          type: approval
           requires:
             - terraform-validate
             - terraform-fmt
             - tflint
+          filters:
+            branches:
+              ignore: master
+      - kitchen-test:
+          requires:
+            - request-run
+          filters:
+            branches:
+              ignore: master
