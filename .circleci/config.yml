@@ -38,7 +38,9 @@ jobs:
 
       - run:
           name: Check Terraform configurations with tflint
-          command: tflint
+          command: |
+            cd module
+            tflint
 
       # - run:
       #     name: Run kitchen test
