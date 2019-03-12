@@ -98,4 +98,6 @@ workflows:
             - terraform-init
       - kitchen-test:
           requires:
-            - terraform-init
+            - terraform-validate
+            - terraform-fmt
+            - tflint
