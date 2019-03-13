@@ -10,9 +10,7 @@ jobs:
       - checkout
       - run:
           name: Terraform init
-          command: |
-            cd module
-            terraform init -input=false
+          command: make init
 
   terraform-validate:
     <<: *docker
@@ -40,7 +38,7 @@ jobs:
             cd module
             tflint
 
-  kitchen-test:
+  run-test:
     <<: *docker
     environment:
       BUNDLE_PATH: vendor/bundle
@@ -63,7 +61,7 @@ jobs:
 
       - run:
           name: Run kitchen test
-          command: bundle exec kitchen test
+          command: make
 
 workflows:
   version: 2
@@ -88,7 +86,7 @@ workflows:
           filters:
             branches:
               ignore: master
-      - kitchen-test:
+      - run-test:
           requires:
             - request-run
           filters:

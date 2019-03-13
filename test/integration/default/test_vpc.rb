@@ -2,7 +2,7 @@ require 'awspec'
 require 'parseconfig'
 
 fixtures_file = 'test/fixtures/tf_module/testing.tfvars'
-tf_state_file = 'terraform.tfstate.d/kitchen-terraform-default-aws/terraform.tfstate'
+tf_state_file = 'terraform.tfstate'
 
 terraform_tfvars_config = ParseConfig.new(fixtures_file)
 tf_state = JSON.parse(File.open(tf_state_file).read)
