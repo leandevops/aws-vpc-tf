@@ -41,7 +41,7 @@ apply: ; @echo "$(GREEN)✓ Applying terraform $(NC)\n"
 	@$(MAKE) -s post-action
 
 tests: ; @echo "$(GREEN)✓ Running RSPEC tests $(NC)\n"
-	@rspec -c -f doc --default-path '.'  -P 'test/integration/default/test_vpc.rb'
+	@bundle exec rspec -c -f doc --default-path '.'  -P 'test/integration/default/test_vpc.rb'
 	@$(MAKE) -s post-action
 
 # destroy all resources
