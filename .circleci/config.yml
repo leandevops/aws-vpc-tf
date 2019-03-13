@@ -38,7 +38,7 @@ jobs:
             cd module
             tflint
 
-  kitchen-test:
+  run-test:
     <<: *docker
     environment:
       BUNDLE_PATH: vendor/bundle
