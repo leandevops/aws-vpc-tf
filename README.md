@@ -49,9 +49,7 @@ module "vpc" {
 - `allow_ssh-sg` - allow_ssh security group id
 
 ## Author
-
-Created and maintained by [Andrey Larin](https://github.com/lestex)
+Created and maintained by [leandevops](https://github.com/leandevops)
 
 ## License
-
 Apache 2 Licensed. See LICENSE for full details.
