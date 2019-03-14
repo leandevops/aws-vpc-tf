@@ -55,6 +55,6 @@ To see more examples of using this module, refer to [examples](https://github.co
 Created and maintained by [leandevops](https://github.com/leandevops)
 
 ## License
-This code is released under the Apache 2.0 License. Please see ([LICENSE](https://github.com/leandevops/terraform-aws-vpc/tree/master/LICENSE)) for more details.
+This code is released under the Apache 2.0 License. Please see [LICENSE](https://github.com/leandevops/terraform-aws-vpc/tree/master/LICENSE) for more details.
 
 Copyright © 2019 LeanDevops.
