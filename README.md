@@ -51,8 +51,9 @@ To see more examples of using this module, refer to [examples](https://github.co
 | `default_sg` | VPC default security group id |
 | `allow_ssh-sg` | allow_ssh security group id |
 
-## Author
-Created and maintained by [leandevops](https://github.com/leandevops)
+## How do I contribute to this Module?
+Contributions are very welcome! Check out the 
+[Contribution Guidelines]() for instructions.
 
 ## License
 This code is released under the Apache 2.0 License. Please see [LICENSE](https://github.com/leandevops/terraform-aws-vpc/tree/master/LICENSE) for more details.
