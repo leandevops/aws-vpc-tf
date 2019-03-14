@@ -23,6 +23,7 @@ validate: ; @echo "$(GREEN)✓ Updating terraform $(NC)\n"
 	@terraform validate -check-variables=true \
 			   -var-file=tests/fixtures/tf_module/testing.tfvars \
 			   tests/fixtures/tf_module
+	@terraform validate -check-variables=false module
 	@$(MAKE) -s post-action
 
 # terraform plan
