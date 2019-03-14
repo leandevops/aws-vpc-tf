@@ -4,51 +4,52 @@ RED   = \033[0;31m
 NC    = \033[0m
 
 # run all
-all: init validate plan apply tests destroy
+all: init validate plan apply run-tests destroy
 	@echo "$(GREEN)✓ 'make all' has completed $(NC)\n"
 
 # initial terraform setup
 init: ; @echo "$(GREEN)✓ Initializing terraform $(NC)\n"
-	@terraform init -input=false -lock=true -lock-timeout=0s \
-			   -upgrade -force-copy -backend=true  -get=true \
-			   -get-plugins=true -verify-plugins=true test/fixtures/tf_module
+	@terraform init -input=false -lock=true \
+			   -upgrade -force-copy -backend=true -get=true \
+			   -get-plugins=true -verify-plugins=true \
+			   tests/fixtures/tf_module
 	@$(MAKE) -s post-action
 
 update: ; @echo "$(GREEN)✓ Updating terraform $(NC)\n"
-	@terraform get -update test/fixtures/tf_module
+	@terraform get -update tests/fixtures/tf_module
 	@$(MAKE) -s post-action
 
 validate: ; @echo "$(GREEN)✓ Updating terraform $(NC)\n"
 	@terraform validate -check-variables=true \
-			   -var-file=test/fixtures/tf_module/testing.tfvars \
-			   test/fixtures/tf_module
+			   -var-file=tests/fixtures/tf_module/testing.tfvars \
+			   tests/fixtures/tf_module
 	@$(MAKE) -s post-action
 
 # terraform plan
 plan: ; @echo "$(GREEN)✓ Planning terraform $(NC)\n"
 	@terraform plan -lock=true -input=false \
 			   -parallelism=4 -refresh=true \
-			   -var-file=test/fixtures/tf_module/testing.tfvars \
-			   test/fixtures/tf_module
+			   -var-file=tests/fixtures/tf_module/testing.tfvars \
+			   tests/fixtures/tf_module
 	@$(MAKE) -s post-action
 
 # apply terraform
 apply: ; @echo "$(GREEN)✓ Applying terraform $(NC)\n"
 	@terraform apply -lock=true -input=false \
 			   -auto-approve=true -parallelism=4 -refresh=true \
-			   -var-file=test/fixtures/tf_module/testing.tfvars \
-			   test/fixtures/tf_module
+			   -var-file=tests/fixtures/tf_module/testing.tfvars \
+			   tests/fixtures/tf_module
 	@$(MAKE) -s post-action
 
-tests: ; @echo "$(GREEN)✓ Running RSPEC tests $(NC)\n"
-	@bundle exec rspec -c -f doc --default-path '.'  -P 'test/integration/default/test_vpc.rb'
+run-tests: ; @echo "$(GREEN)✓ Running rspec tests $(NC)\n"
+	@bundle exec rspec -c -f doc --default-path '.'  -P 'tests/scenarios/test_module.rb'
 	@$(MAKE) -s post-action
 
 # destroy all resources
 destroy: ; @echo "$(RED)✓ Destroying terraform resources $(NC)\n"
 	@terraform destroy -force -input=false -parallelism=4 -refresh=true \
-			   -var-file=test/fixtures/tf_module/testing.tfvars \
-			   test/fixtures/tf_module
+			   -var-file=tests/fixtures/tf_module/testing.tfvars \
+			   tests/fixtures/tf_module
 	@rm terraform.tfstate*
 	@$(MAKE) -s post-action
 
@@ -57,6 +58,14 @@ clean: ; @echo "$(RED)✓ Cleaning directory $(NC)\n"
 	@rm -f terraform.tfstate*
 	@$(MAKE) -s post-action
 
-# run post actions
+tflint: ; @echo "$(RED)✓ Running tflint $(NC)\n"
+	@cd module && tflint
+	@$(MAKE) -s post-action
+
+deps: ; @echo "$(RED)✓ Installing dependencies $(NC)\n"
+	@gem install bundler
+	@bundle check || bundle install
+	@$(MAKE) -s post-action
+
 post-action: ; @echo "$(BLUE)✓ Done. $(NC)\n"
 .PHONY: post-action
