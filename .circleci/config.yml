@@ -18,7 +18,7 @@ jobs:
       - checkout
       - run:
           name: Validate Terraform configurations
-          command: make validate
+          command: make init || make validate
 
   terraform-fmt:
     <<: *docker
