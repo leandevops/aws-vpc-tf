@@ -7,7 +7,7 @@
 
 module "vpc" {
   source = "github.com/leandevops/terraform-aws-vpc//module?ref=v1.1.0"
-  
+
   name     = "test-vpc"
   region   = "${var.region}"
   vpc_cidr = "10.0.0.0/16"
