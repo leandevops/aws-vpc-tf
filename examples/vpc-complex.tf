@@ -15,10 +15,11 @@ module "vpc" {
   enable_nat_gateway      = true
   multi_nat_gateway       = false
 
-  enable_s3_endpoint      = true
+  enable_s3_endpoint = true
+
   tags = {
-      createdWith = "terraform"
-      environment = "development"
+    createdWith = "terraform"
+    environment = "development"
   }
 }
 
