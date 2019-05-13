@@ -58,4 +58,4 @@ Contributions are very welcome! Check out the
 ## License
 This code is released under the Apache 2.0 License. Please see [LICENSE](https://github.com/leandevops/terraform-aws-vpc/tree/master/LICENSE) for more details.
 
-Copyright © 2019 LeanDevops.
+Copyright © 2019 [LeanDevops](https://leandevops.io).
